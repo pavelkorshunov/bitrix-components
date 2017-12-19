@@ -1,0 +1,65 @@
+.hs-form {
+    font-size: 1.2em;
+    font-family: monospace;
+}
+.hs-form__text {
+    margin: 5px 0;
+}
+.hs-form__req {
+    color: red;
+    margin-right: 3px;
+}
+.hs-form__wrapper textarea{
+    resize: none;
+}
+.hs-form__submit {
+    cursor: pointer;
+}
+.hs-form__submit,
+.hs-form__wrapper input,
+.hs-form__wrapper textarea {
+    font-size: 0.9em;
+    font-family: monospace;
+}
+.hs-form__submit,
+.hs-form__wrapper input,
+.hs-form__wrapper textarea {
+    width: 100%;
+    color: #262626;
+    margin: 5px 0;
+    padding: 10px 0;
+    text-indent: 10px;
+    letter-spacing: 1px;
+    border: solid 1px #000;
+    background-color: #f9895d;
+}
+.hspopup__background {
+    position: fixed;
+    width: 100%;
+    top: 45%;
+    left: 0;
+}
+.hspopup__wrap {
+    margin: auto;
+    color: #ffffff;
+    position: relative;
+    max-width: 300px;
+    padding: 20px;
+    background: rgba(0,0,0,0.7);
+}
+.hspopup__close {
+    position: absolute;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    right: 10px;
+    top: 0;
+}
+.hspopup-ok-text {
+    text-align: center;
+    font-weight: bold;
+}
+::-webkit-input-placeholder {color: #262626;}
+::-moz-placeholder {color: #262626;}
+:-moz-placeholder {color: #262626;}
+:-ms-input-placeholder {color: #262626;}
