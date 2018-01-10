@@ -42,7 +42,7 @@ if(!defined("B_PROLOG_INCLUDED")||B_PROLOG_INCLUDED!==true)die();
     }
     ?>
 
-    <form class="hs-form" action="<?=POST_FORM_ACTION_URI?>" method="POST">
+    <form class="hs-form" action="<?=POST_FORM_ACTION_URI?>" method="POST" enctype="multipart/form-data">
         <?=bitrix_sessid_post()?>
 
         <?if(empty($arParams["FILL_FIELDS"]) || in_array("NAME", $arParams["FILL_FIELDS"])):?>
@@ -81,8 +81,20 @@ if(!defined("B_PROLOG_INCLUDED")||B_PROLOG_INCLUDED!==true)die();
         </div>
         <?endif;?>
 
+        <?if(empty($arParams["FILL_FIELDS"]) || in_array("FILE", $arParams["FILL_FIELDS"])):?>
+            <div class="hs-form__wrapper">
+                <div class="hs-form__text">
+                    <?=GetMessage("POPUP_TMP_FILE")?>
+                </div>
+                <div class="hs-form__files">
+                    <div class="hs-form__file-fake"><p><?=GetMessage("POPUP_TMP_DEFAULT_FILE");?></p></div>
+                    <input class="hs-form__file-origin" type="file" name="user_file">
+                </div>
+            </div>
+        <?endif;?>
+
         <?if($arParams["USE_CAPTCHA"] == "Y"):?>
-            <div class="hs-form__captcha">
+            <div class="hs-form__captcha hs-form__wrapper">
                 <div class="hs-form__text"><?=GetMessage("POPUP_TMP_CAPTCHA")?></div>
                 <input type="hidden" name="captcha_sid" value="<?=$arResult["capCode"]?>">
                 <img src="/bitrix/tools/captcha.php?captcha_sid=<?=$arResult["capCode"]?>" width="180" height="40" alt="CAPTCHA">

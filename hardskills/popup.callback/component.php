@@ -44,6 +44,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["submit"] <> '' && (!isset($_P
         //Проверка валидности e-mail
         if(strlen($_POST["user_email"]) > 1 && !check_email($_POST["user_email"]))
             $arResult["ERROR_MESSAGE"][] = GetMessage("MF_EMAIL_NOT_VALID");
+        //Проверка формата и размера файла. Поле файла должно называться user_file
+        if(in_array("FILE", $arParams["FILL_FIELDS"]))
+        {
+            $arrFile = array(
+                "name" => $_FILES["user_file"]["name"],
+                "size" => $_FILES["user_file"]["size"],
+                "tmp_name" => $_FILES["user_file"]["tmp_name"],
+                "type" => $_FILES["user_file"]["type"]
+                );
+            $res = CFile::CheckFile($arrFile, 2000000, "application/", "doc,docx");
+            if(strlen($res)>0)
+            {
+                $arResult["ERROR_MESSAGE"][] = GetMessage("MF_WRONG_FILE");
+            }
+        }
         // Подключаем капчу
         if($arParams["USE_CAPTCHA"] == "Y")
         {
@@ -61,14 +76,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["submit"] <> '' && (!isset($_P
                 $arResult["ERROR_MESSAGE"][] = GetMessage("MF_CAPTHCA_EMPTY");
 
         }
+        //Отправляем, если нет ошибок
         if(empty($arResult["ERROR_MESSAGE"]))
         {
+            $pageUrl = $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
             $arFields = Array(
                 "AUTHOR" => $_POST["user_name"],
                 "AUTHOR_EMAIL" => $_POST["user_email"],
                 "EMAIL_TO" => $arParams["EMAIL_TO"],
                 "PHONE" => $_POST["user_phone"],
                 "TEXT" => $_POST["MESSAGE"],
+                "FILE" => $_POST["user_file"],
+                "PAGE_URL" => $pageUrl,
             );
             if(!empty($arParams["EVENT_MESSAGE_ID"]))
             {

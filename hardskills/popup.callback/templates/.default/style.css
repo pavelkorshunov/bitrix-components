@@ -35,6 +35,7 @@
 }
 .hspopup__background {
     position: fixed;
+    z-index: 50;
     width: 100%;
     top: 45%;
     left: 0;
@@ -58,6 +59,38 @@
 .hspopup-ok-text {
     text-align: center;
     font-weight: bold;
+}
+.hs-form__files {
+    position: relative;
+    height: 40px;
+    width: 100%;
+}
+.hs-form__files .hs-form__file-fake,
+.hs-form__files .hs-form__file-origin {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+.hs-form__files {
+    background-color: #f9895d;
+    border: solid 1px #000;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.hs-form__file-fake {
+    color: #262626;
+}
+.hs-form__file-fake p {
+    margin: 0;
+    padding-top: 10px;
+}
+.hs-form__file-origin {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
 }
 ::-webkit-input-placeholder {color: #262626;}
 ::-moz-placeholder {color: #262626;}
