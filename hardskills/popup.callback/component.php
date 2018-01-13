@@ -58,6 +58,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["submit"] <> '' && (!isset($_P
             {
                 $arResult["ERROR_MESSAGE"][] = GetMessage("MF_WRONG_FILE");
             }
+
+            //Сохраняем файл в папку upload/attach, если папки нет создаем и регистрируем его в таблице (b_file)
+            if(empty($arResult["ERROR_MESSAGE"]))
+            {
+                $folderName = "attach";
+                $pathToAttachDir = $_SERVER["DOCUMENT_ROOT"] . "/upload/" . $folderName;
+                if(!file_exists($pathToAttachDir))
+                {
+                    mkdir($pathToAttachDir);
+                }
+                $arFileTmp = CFile::SaveFile([
+                    "name" => $_FILES['user_file']['name'],
+                    "size" => $_FILES['user_file']['size'],
+                    "tmp_name" => $_FILES['user_file']['tmp_name'],
+                    "type" => $_FILES["user_file"]["type"],
+                    "old_file" => "",
+                    "del" => "Y",
+                    "MODULE_ID" => "form"
+                ], $folderName);
+            }
         }
         // Подключаем капчу
         if($arParams["USE_CAPTCHA"] == "Y")
@@ -86,14 +106,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["submit"] <> '' && (!isset($_P
                 "EMAIL_TO" => $arParams["EMAIL_TO"],
                 "PHONE" => $_POST["user_phone"],
                 "TEXT" => $_POST["MESSAGE"],
-                "FILE" => $_POST["user_file"],
                 "PAGE_URL" => $pageUrl,
             );
             if(!empty($arParams["EVENT_MESSAGE_ID"]))
             {
                 foreach($arParams["EVENT_MESSAGE_ID"] as $v)
                     if(IntVal($v) > 0)
-                        CEvent::Send($arParams["EVENT_NAME"], SITE_ID, $arFields, "N", IntVal($v));
+                        CEvent::Send($arParams["EVENT_NAME"], SITE_ID, $arFields, "N", IntVal($v), [$arFileTmp]);
             }
             else
                 CEvent::Send($arParams["EVENT_NAME"], SITE_ID, $arFields);
