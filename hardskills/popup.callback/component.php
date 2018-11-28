@@ -101,11 +101,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["submit"] <> '' && (!isset($_P
         {
             $pageUrl = $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
             $arFields = Array(
-                "AUTHOR" => $_POST["user_name"],
-                "AUTHOR_EMAIL" => $_POST["user_email"],
+                "AUTHOR" => htmlspecialcharsbx($_POST["user_name"]),
+                "AUTHOR_EMAIL" => htmlspecialcharsbx($_POST["user_email"]),
                 "EMAIL_TO" => $arParams["EMAIL_TO"],
-                "PHONE" => $_POST["user_phone"],
-                "TEXT" => $_POST["MESSAGE"],
+                "PHONE" => htmlspecialcharsbx($_POST["user_phone"]),
+                "TEXT" => htmlspecialcharsbx($_POST["MESSAGE"]),
                 "PAGE_URL" => $pageUrl,
             );
             if(!empty($arParams["EVENT_MESSAGE_ID"]))
