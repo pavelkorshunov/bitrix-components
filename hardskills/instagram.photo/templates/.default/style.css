@@ -1,0 +1,11 @@
+.insta-error {font:16px Calibri, Arial, sans-serif;color:#f00;}
+.account-img {float:left;margin:0 10px 10px 0;height:100px;width:100px;}
+.insta-head-block {max-height:100px;overflow:hidden;margin-bottom:20px;}
+.insta-head-block p {padding:0;margin:0 auto 10px;}
+.insta-follow, .insta-bio {font-size:0.9em;}
+.insta-follow span {font-size:1em;background:#555;border-radius:3px;color:#fff; padding:1px 4px;}
+.clearfix:after {content:"";display:table;clear:both;}
+.insta-images-block {margin-right:-7px;}
+.insta-image {float:left;width:220px;margin:0 7px 7px 0;}
+.insta-image img {width:100%;}
+.insta-image p {font-size:0.8em;}
