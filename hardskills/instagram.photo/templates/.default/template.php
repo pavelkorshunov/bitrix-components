@@ -12,6 +12,8 @@ if(!defined("B_PROLOG_INCLUDED")||B_PROLOG_INCLUDED!==true)die();
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
 
+$this->setFrameMode(true);
+
 if(!empty($arResult["ERROR_MESSAGE"]))
 {
 	foreach ($arResult["ERROR_MESSAGE"] as $error)
