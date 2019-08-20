@@ -10,5 +10,6 @@ $MESS ['POPUP_CALLBACK_NAME'] = "Имя";
 $MESS ['POPUP_CALLBACK_PHONE'] = "Телефон";
 $MESS ['POPUP_CALLBACK_MESSAGE'] = "Сообщение";
 $MESS ['POPUP_CALLBACK_FILE'] = "Файл";
-$MESS ['POPUP_CALLBACK_EMAIL_TEMPLATES'] = "Почтовые шаблоны для отправки письма";
+$MESS ['POPUP_CALLBACK_EMAIL_TEMPLATES'] = "Почтовый шаблон для отправки письма";
+$MESS ['POPUP_CALLBACK_EVENT_NAME'] = "Тип почтового события";
 ?>

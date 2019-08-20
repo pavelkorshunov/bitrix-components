@@ -29,14 +29,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["submit"] <> '' && (!isset($_P
     $arResult["ERROR_MESSAGE"] = array();
     if(check_bitrix_sessid())
     {
-    	// Проверка обязательных полей
+        // Проверка обязательных полей
         if(empty($arParams["REQUIRED_FIELDS"]) || !in_array("NONE", $arParams["REQUIRED_FIELDS"]))
         {
             if((empty($arParams["REQUIRED_FIELDS"]) || in_array("NAME", $arParams["REQUIRED_FIELDS"])) && strlen($_POST["user_name"]) <= 1)
                 $arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_NAME");
             if((empty($arParams["REQUIRED_FIELDS"]) || in_array("EMAIL", $arParams["REQUIRED_FIELDS"])) && strlen($_POST["user_email"]) <= 1)
-            	$arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_EMAIL");
-        	if((empty($arParams["REQUIRED_FIELDS"]) || in_array("PHONE", $arParams["REQUIRED_FIELDS"])) && strlen($_POST["user_phone"]) <= 1)
+                $arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_EMAIL");
+            if((empty($arParams["REQUIRED_FIELDS"]) || in_array("PHONE", $arParams["REQUIRED_FIELDS"])) && strlen($_POST["user_phone"]) <= 1)
                 $arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_PHONE");
             if((empty($arParams["REQUIRED_FIELDS"]) || in_array("MESSAGE", $arParams["REQUIRED_FIELDS"])) && strlen($_POST["MESSAGE"]) <= 3)
                 $arResult["ERROR_MESSAGE"][] = GetMessage("MF_REQ_MESSAGE");
@@ -44,7 +44,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["submit"] <> '' && (!isset($_P
         //Проверка валидности e-mail
         if(strlen($_POST["user_email"]) > 1 && !check_email($_POST["user_email"]))
             $arResult["ERROR_MESSAGE"][] = GetMessage("MF_EMAIL_NOT_VALID");
+
         //Проверка формата и размера файла. Поле файла должно называться user_file
+        $arFileTmp = false;
         if(in_array("FILE", $arParams["FILL_FIELDS"]))
         {
             $arrFile = array(
@@ -52,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["submit"] <> '' && (!isset($_P
                 "size" => $_FILES["user_file"]["size"],
                 "tmp_name" => $_FILES["user_file"]["tmp_name"],
                 "type" => $_FILES["user_file"]["type"]
-                );
+            );
             $res = CFile::CheckFile($arrFile, 2000000, "application/", "doc,docx");
             if(strlen($res)>0)
             {
@@ -110,9 +112,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["submit"] <> '' && (!isset($_P
             );
             if(!empty($arParams["EVENT_MESSAGE_ID"]))
             {
-                foreach($arParams["EVENT_MESSAGE_ID"] as $v)
-                    if(IntVal($v) > 0)
-                        CEvent::Send($arParams["EVENT_NAME"], SITE_ID, $arFields, "N", IntVal($v), [$arFileTmp]);
+                if(IntVal($arParams["EVENT_MESSAGE_ID"]) > 0)
+                    CEvent::Send($arParams["EVENT_NAME"], SITE_ID, $arFields, "N", IntVal($arParams["EVENT_MESSAGE_ID"]), [$arFileTmp]);
             }
             else
                 CEvent::Send($arParams["EVENT_NAME"], SITE_ID, $arFields);

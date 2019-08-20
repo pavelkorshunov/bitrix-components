@@ -2,41 +2,48 @@
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
 $site = ($_REQUEST["site"] <> ''? $_REQUEST["site"] : ($_REQUEST["src_site"] <> ''? $_REQUEST["src_site"] : false));
-$arFilter = Array("ACTIVE" => "Y");
+$arFilter = array("ACTIVE" => "Y");
 if($site !== false)
     $arFilter["LID"] = $site;
 
-$arEvent = Array();
+$arEvent = array();
 $dbType = CEventMessage::GetList($by="ID", $order="DESC", $arFilter);
 while($arType = $dbType->GetNext())
     $arEvent[$arType["ID"]] = "[".$arType["ID"]."] ".$arType["SUBJECT"];
 
+$arEventType = array();
+$dbEventType = CEventType::GetList(array("LID" => "ru"));
+
+while($arET = $dbEventType->Fetch())
+    $arEventType[$arET["EVENT_NAME"]] = "[".$arET["ID"]."] ".$arET["EVENT_NAME"];
+
+
 $arComponentParameters = array(
     "PARAMETERS" => array(
         "AJAX_MODE" => array(),
-        "USE_CAPTCHA" => Array(
+        "USE_CAPTCHA" => array(
             "NAME" => GetMessage("POPUP_CALLBACK_CAPTCHA"),
             "TYPE" => "CHECKBOX",
             "DEFAULT" => "Y",
             "PARENT" => "BASE",
         ),
-        "OK_TEXT" => Array(
+        "OK_TEXT" => array(
             "NAME" => GetMessage("POPUP_CALLBACK_MESSAGE_OK"),
             "TYPE" => "STRING",
             "DEFAULT" => GetMessage("POPUP_CALLBACK_MESSAGE_DEFAULT"),
             "PARENT" => "BASE",
         ),
-        "SHOW_POPUP" => Array(
+        "SHOW_POPUP" => array(
             "NAME" => GetMessage("POPUP_CALLBACK_SHOW_POPUP"),
             "TYPE" => "CHECKBOX",
             "DEFAULT" => "Y",
             "PARENT" => "BASE",
         ),
-        "FILL_FIELDS" => Array(
+        "FILL_FIELDS" => array(
             "NAME" => GetMessage("POPUP_CALLBACK_FILL_FIELDS"),
             "TYPE"=>"LIST",
             "MULTIPLE"=>"Y",
-            "VALUES" => Array(
+            "VALUES" => array(
                 "NAME" => GetMessage("POPUP_CALLBACK_NAME"),
                 "EMAIL" => "E-mail",
                 "PHONE" => GetMessage("POPUP_CALLBACK_PHONE"),
@@ -46,11 +53,11 @@ $arComponentParameters = array(
             "COLS"=>25,
             "PARENT" => "BASE",
         ),
-        "REQUIRED_FIELDS" => Array(
+        "REQUIRED_FIELDS" => array(
             "NAME" => GetMessage("POPUP_CALLBACK_REQUIRED_FIELDS"),
             "TYPE"=>"LIST",
             "MULTIPLE"=>"Y",
-            "VALUES" => Array(
+            "VALUES" => array(
                 "NONE" => GetMessage("POPUP_CALLBACK_REQUIRED_N"),
                 "NAME" => GetMessage("POPUP_CALLBACK_NAME"),
                 "EMAIL" => "E-mail",
@@ -60,16 +67,24 @@ $arComponentParameters = array(
             "COLS"=>25,
             "PARENT" => "BASE",
         ),
-        "EVENT_MESSAGE_ID" => Array(
+        "EVENT_MESSAGE_ID" => array(
             "NAME" => GetMessage("POPUP_CALLBACK_EMAIL_TEMPLATES"),
             "TYPE"=>"LIST",
             "VALUES" => $arEvent,
             "DEFAULT"=>"",
-            "MULTIPLE"=>"Y",
+            "MULTIPLE"=>"N",
+            "COLS"=>25,
+            "PARENT" => "BASE",
+        ),
+        "EVENT_NAME" => array(
+            "NAME" => GetMessage("POPUP_CALLBACK_EVENT_NAME"),
+            "TYPE"=>"LIST",
+            "VALUES" => $arEventType,
+            "DEFAULT"=>"",
+            "MULTIPLE"=>"N",
             "COLS"=>25,
             "PARENT" => "BASE",
         ),
 
     )
 );
-?>
