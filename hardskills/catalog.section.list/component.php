@@ -45,7 +45,7 @@ if($arParams["SECTION_CTN"] > "0")
 	$navStartParams = array("nPageSize" => $arParams["SECTION_CTN"]);
 }
 
-$arNavigation = CDBResult::GetNavParams($navStartParams, false);
+$arNavigation = CDBResult::GetNavParams($navStartParams, true);
 
 /*************************************************************************
 			Work with cache
